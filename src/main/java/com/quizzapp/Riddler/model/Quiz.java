@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "quizzes")
+@Table(name = "quizze")
 public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

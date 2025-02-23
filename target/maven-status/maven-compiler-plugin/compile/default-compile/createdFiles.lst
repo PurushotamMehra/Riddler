@@ -1,0 +1,16 @@
+com/quizzapp/Riddler/controller/StudentController.class
+com/quizzapp/Riddler/repository/QuizResultRepo.class
+com/quizzapp/Riddler/repository/UserRepo.class
+com/quizzapp/Riddler/model/LoginRequest.class
+com/quizzapp/Riddler/model/Role.class
+com/quizzapp/Riddler/controller/AdminController.class
+com/quizzapp/Riddler/RiddlerApplication.class
+com/quizzapp/Riddler/model/User.class
+com/quizzapp/Riddler/model/Question.class
+com/quizzapp/Riddler/service/QuizService.class
+com/quizzapp/Riddler/controller/TeacherController.class
+com/quizzapp/Riddler/model/Quiz.class
+com/quizzapp/Riddler/controller/AuthController.class
+com/quizzapp/Riddler/repository/QuizRepo.class
+com/quizzapp/Riddler/model/QuizResult.class
+com/quizzapp/Riddler/service/UserService.class
