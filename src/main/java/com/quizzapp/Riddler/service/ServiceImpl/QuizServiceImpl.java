@@ -15,10 +15,9 @@ import java.time.LocalDateTime;
 @Service
 public class QuizServiceImpl implements QuizService {
     
-    @Autowired
-    private QuizRepo quizRepository;
-    private QuizResultRepo quizResultRepository;
-    private UserRepo userRepository;
+    @Autowired private QuizRepo quizRepository;
+    @Autowired private QuizResultRepo quizResultRepository;
+    @Autowired private UserRepo userRepository;
 
     @Override
     public Quiz createQuiz(Quiz quiz) {

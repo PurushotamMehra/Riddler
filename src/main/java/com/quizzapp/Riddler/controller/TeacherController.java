@@ -17,12 +17,12 @@ public class TeacherController {
     @Autowired
     private QuizService quizService;
 
-    @PostMapping("/quizzes") //WORKS
+    @PostMapping("/quiz") //WORKS
     public ResponseEntity<Quiz> createQuiz(@RequestBody Quiz quiz) {
         return ResponseEntity.ok(quizService.createQuiz(quiz));
     }
 
-    @GetMapping("/quizzes/{teacherId}") //WORKS
+    @GetMapping("/quiz/{teacherId}") //WORKS with and without security
     public ResponseEntity<List<Quiz>> getTeacherQuizzes(@PathVariable Long teacherId) {
         List<Quiz> quizzes = quizService.getQuizzesByTeacher(teacherId);
         return ResponseEntity.ok(quizzes);

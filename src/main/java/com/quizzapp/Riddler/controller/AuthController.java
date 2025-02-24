@@ -1,20 +1,31 @@
 package com.quizzapp.Riddler.controller;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import com.quizzapp.Riddler.model.LoginRequest;
-import com.quizzapp.Riddler.service.ServiceImpl.UserServiceImpl;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import com.quizzapp.Riddler.dto.LoginDTO;
+import com.quizzapp.Riddler.dto.JwtResponse;
+import com.quizzapp.Riddler.model.User;
+import com.quizzapp.Riddler.security.JwtUtils;
+import com.quizzapp.Riddler.service.UserService;
 
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor
 public class AuthController {
-    private final UserServiceImpl userService;
-    
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private JwtUtils jwtUtils;
+
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        return ResponseEntity.ok(userService.login(request.getUsername(), request.getPassword()));
+    public ResponseEntity<JwtResponse> login(@RequestBody LoginDTO loginDTO) {
+        User user = userService.login(loginDTO.getUsername(), loginDTO.getPassword());
+        String token = jwtUtils.generateToken(user);
+        return ResponseEntity.ok(new JwtResponse(token, user.getUsername(), user.getRole().name()));
     }
 }

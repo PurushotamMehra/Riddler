@@ -1,7 +1,7 @@
 package com.quizzapp.Riddler.service.ServiceImpl;
 
 import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.quizzapp.Riddler.model.User;
@@ -52,15 +52,27 @@ public class UserServiceImpl implements UserService{
     public List<User> getAllUsers() {
         return userRepo.findAll();
     }
+
+    // public User login(String username, String password) {
+    //     Optional<User> userOptional = userRepo.findByUsername(username);
+    //     User user = userOptional.orElseThrow(() -> new EntityNotFoundException("User with username '" + username + "' not found"));
+    
+    //     if (!user.getPassword().equals(password)) { // Note: In production, use password encoding
+    //         throw new IllegalArgumentException("Incorrect password");
+    //     }
+    
+    //     return user;
+    // }
     
     public User login(String username, String password) {
         User user = userRepo.findByUsername(username);
         if (user == null) {
             throw new EntityNotFoundException("User with username '" + username + "' not found");
         }
-        if (!user.getPassword().equals(password)) { // Consider using hashed passwords
+        if (!user.getPassword().equals(password)) { // Note: In production, use password encoding
             throw new IllegalArgumentException("Incorrect password");
         }
         return user;
     }
+    
 }
