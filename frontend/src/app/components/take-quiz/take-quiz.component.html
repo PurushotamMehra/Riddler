@@ -1,0 +1,71 @@
+<div class="quiz-container" *ngIf="!loading && !error && quiz">
+  <div class="quiz-header">
+    <h2>{{ quiz.title }}</h2>
+    <div class="quiz-info">
+      <p><strong>Questions:</strong> {{ getTotalQuestions() }}</p>
+      <p *ngIf="timeRemaining > 0" class="timer" [ngClass]="{'warning': timeRemaining < 60}">
+        <strong>Time Remaining:</strong> {{ formatTime(timeRemaining) }}
+      </p>
+    </div>
+  </div>
+
+  <div class="quiz-instructions">
+    <p><strong>Instructions:</strong> Select the correct option for each question. Once submitted, you cannot change your answers.</p>
+  </div>
+
+  <div class="questions-container">
+    <div *ngFor="let question of quiz.questions; let i = index" class="question-box">
+      <h3>Question {{ i + 1 }}</h3>
+      <p class="question-text">{{ question.questionText }}</p>
+
+      <div class="options-list">
+        <label *ngFor="let option of [
+            {index: 1, text: question.option1}, 
+            {index: 2, text: question.option2}, 
+            {index: 3, text: question.option3}, 
+            {index: 4, text: question.option4}
+          ]" 
+          class="option-item"
+          [ngClass]="{'selected': answers[i] === option.index}"
+          (click)="selectAnswer(i, option.index)">
+          
+          <input
+            type="radio"
+            [name]="'question-' + i"
+            [value]="option.index"
+            (change)="selectAnswer(i, option.index)"
+            [checked]="answers[i] === option.index"
+          />
+          <span class="option-text">{{ option.text }}</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="quiz-footer">
+    <button 
+      class="submit-button" 
+      (click)="submitQuiz()" 
+      [disabled]="loading">
+      Submit Quiz
+    </button>
+  </div>
+
+  <div class="progress-indicator">
+    <div class="progress-text">
+      Answered: {{ getAnsweredCount() }} / {{ getTotalQuestions() }}
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="getProgressPercentage()"></div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="loading-container">
+  <p>Loading... Please wait</p>
+</div>
+
+<div *ngIf="error" class="error-container">
+  <p class="error-message">{{ error }}</p>
+  <button (click)="navigateToDashboard()">Return to Dashboard</button>
+</div>

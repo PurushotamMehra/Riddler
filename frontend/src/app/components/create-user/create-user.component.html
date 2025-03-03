@@ -1,0 +1,22 @@
+<div class="create-user-container">
+    <h2>Create User</h2>
+  
+    <form (ngSubmit)="onSubmit()">
+      <input type="text" placeholder="Username" [(ngModel)]="user.username" name="username" required>
+      <input type="email" placeholder="Email" [(ngModel)]="user.email" name="email" required>
+      <input type="password" placeholder="Password" [(ngModel)]="user.password" name="password" required>
+  
+      <select [(ngModel)]="user.role" name="role" required>
+        <option value="" disabled selected>Select Role</option>
+        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+      </select>
+  
+      <button [disabled]="!user.username || !user.email || !user.password || !user.role">
+        Create User
+      </button>
+    </form>
+  
+    <p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
+    <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+  </div>
+  

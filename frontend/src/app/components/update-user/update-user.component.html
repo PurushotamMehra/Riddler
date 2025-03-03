@@ -1,0 +1,28 @@
+<div class="create-user-container">
+    <h2>Update User</h2>
+    <div *ngIf="loading" class="loading-spinner">
+      <p>Loading user data...</p>
+    </div>
+    
+    <form (ngSubmit)="onSubmit()" *ngIf="!loading">
+      <input type="text" placeholder="Username" [(ngModel)]="user.username" name="username" required>
+      <input type="email" placeholder="Email" [(ngModel)]="user.email" name="email" required>
+      <input type="password" placeholder="Password" [(ngModel)]="user.password" name="password" placeholder="Leave empty to keep current password">
+      <select [(ngModel)]="user.role" name="role" required>
+        <option value="" disabled>Select Role</option>
+        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+      </select>
+      
+      <div class="button-group">
+        <button type="submit" [disabled]="!user.username || !user.email || !user.role" class="update-btn">
+          Update User
+        </button>
+        <button type="button" class="cancel-btn" (click)="cancelEdit()">
+          Cancel
+        </button>
+      </div>
+    </form>
+    
+    <p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
+    <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+  </div>

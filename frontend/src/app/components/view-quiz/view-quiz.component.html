@@ -1,0 +1,51 @@
+<!-- view-quiz.component.html -->
+<div class="view-quiz-container">
+    <div *ngIf="loading" class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading quiz...</p>
+    </div>
+    
+    <div *ngIf="error" class="error-message">
+      <p>{{ error }}</p>
+      <button (click)="navigateBack()" class="btn btn-primary">Go Back</button>
+    </div>
+    
+    <div *ngIf="!loading && !error" class="quiz-details">
+      <!-- Quiz Header -->
+      <div class="quiz-header">
+        <h1>{{ quiz.title }}</h1>
+        <div class="quiz-meta">
+          <p><strong>Duration:</strong> {{ formatDuration(quiz.duration) }}</p>
+          <p><strong>Created by:</strong> {{ quiz.teacher.username }}</p>
+          <p><strong>Total Questions:</strong> {{ quiz.questions?.length || 0 }}</p>
+        </div>
+        <button (click)="navigateBack()" class="btn btn-primary">Back to Quizzes</button>
+      </div>
+      
+      <!-- Questions List -->
+      <div class="questions-list">
+        <h2>Questions and Answers</h2>
+        
+        <div *ngFor="let question of quiz.questions; let i = index" class="question-card">
+          <div class="question-header">
+            <h3>Question {{ i + 1 }}</h3>
+            <div class="question-text">{{ question.questionText }}</div>
+          </div>
+          
+          <div class="options-list">
+            <div 
+              *ngFor="let optNum of [1, 2, 3, 4]" 
+              class="option"
+              [class.correct-option]="optNum === question.correctOption"
+            >
+              <div class="option-number">{{ optNum }}</div>
+              <div class="option-text">{{ getOptionText(question, optNum) }}</div>
+              <div *ngIf="optNum === question.correctOption" class="correct-indicator">
+                <span class="correct-icon">✓</span> Correct Answer
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

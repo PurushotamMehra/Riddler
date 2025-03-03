@@ -1,0 +1,66 @@
+/* Centered login container */
+.login-container {
+    width: 25vw; /* Reduced width */
+    min-width: 320px; /* Ensures it doesn't get too small on mobile */
+    height: 40vh; /* Keeps the vertical size */
+    padding: 2rem; /* Gives space inside */
+    background-color: #F5ECE8; /* Slightly lighter than background */
+    color: #171006; /* Dark text */
+    border-radius: 16px; /* Rounded corners */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Form styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* More spacing between fields */
+    width: 100%;
+}
+
+/* Heading */
+h2 {
+    font-size: 2.5rem; /* Bigger heading */
+    margin-bottom: 2rem;
+}
+
+/* Input fields */
+input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    font-size: 16px;
+    background-color: #FDF6F3; /* Lightest shade */
+    color: #171006;
+    outline: none;
+}
+
+/* Submit button */
+button {
+    background-color: #171006;
+    color: #E5E3E1;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background 0.3s;
+    width: 100%;
+}
+
+/* Button hover effect */
+button:hover {
+    background-color: #2A1E0F;
+}
+
+button:disabled {
+    background-color: #555; /* lighter gray */
+    cursor: not-allowed;
+    opacity: 0.7;
+}

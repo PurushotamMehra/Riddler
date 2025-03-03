@@ -1,0 +1,49 @@
+<div class="container mt-4">
+  <h2>Available Quizzes</h2>
+  
+  <!-- Loading indicator -->
+  <div *ngIf="loading" class="text-center my-3">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  
+  <!-- Error message -->
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show">
+    {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+  </div>
+  
+  <!-- No quizzes message -->
+  <div *ngIf="quizzes.length === 0 && !loading" class="alert alert-info">
+    No quizzes available at the moment.
+  </div>
+  
+  <!-- Quizzes cards -->
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="col" *ngFor="let quiz of quizzes">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body quiz-container">
+          <!-- Left: Quiz Title & Created By -->
+          <div class="quiz-info">
+            <h5 class="card-title">{{ quiz.title }}</h5>
+            <p class="quiz-teacher">Created by: {{ quiz.teacher.username || 'Unknown' }}</p>
+          </div>
+
+          <!-- Middle: Question Count & Duration -->
+          <div class="quiz-meta">
+            <span class="badge">{{ quiz.questions?.length || 0 }} Questions</span>
+            <span *ngIf="quiz.duration" class="badge">{{ quiz.duration }} min</span>
+          </div>
+
+          <!-- Right: Attempt Button -->
+          <div class="quiz-action">
+            <button class="btn" [disabled]="!quiz.id" (click)="attemptQuiz(quiz.id)">
+              Attempt Quiz
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

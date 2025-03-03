@@ -1,0 +1,40 @@
+<div *ngIf="error" class="error-message">
+  <p>{{ error }}</p>
+  <button (click)="navigateBack()" class="btn btn-primary">Back</button>
+</div>
+
+<div *ngIf="!loading && !error && result && quiz">
+  <div class="attempt-header">
+    <button (click)="navigateBack()" class="btn btn-outline-secondary btn-sm back-button">
+      <i class="fa fa-arrow-left"></i> Back to Results
+    </button>
+  </div>
+
+  <h2>Quiz Attempt Details</h2>
+  <!-- <p class="score">Score: {{ result.score }} / {{ quiz.questions.length}}</p> -->
+  <p class="score">
+    Score: {{ result.score }} / {{ quiz.questions?.length || 0 }}
+  </p>
+  
+  <p>Submission Time: {{ result.submissionTime }}</p>
+
+  <div *ngFor="let question of quiz.questions; let i = index" class="question-card">
+    <div class="question-number">Question {{ i + 1 }}</div>
+    <div class="question-text">{{ question.questionText }}</div>
+
+    <div class="answers-section">
+      <div class="student-answer" 
+           [ngClass]="{'correct-answer': isCorrectAnswer(i, result.answersAsList?.[i] ?? -1), 
+                       'wrong-answer': !isCorrectAnswer(i, result.answersAsList?.[i] ?? -1)}">
+        <div class="answer-label">Student's Answer:</div>
+        <div class="answer-text">{{ getSelectedOptionText(i) }}</div>
+      </div>
+    
+      <div class="correct-answer-section" *ngIf="!isCorrectAnswer(i, result.answersAsList?.[i] ?? -1)">
+        <div class="answer-label">Correct Answer:</div>
+        <div class="answer-text correct">{{ getCorrectOptionText(i) }}</div>
+      </div>
+    </div>
+    
+  </div>
+</div>

@@ -1,0 +1,77 @@
+<div class="container">
+    <h2>Available Quizzes</h2>
+  
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Loading quizzes...</p>
+    </div>
+  
+    <div *ngIf="error" class="error-message">
+      <p>{{ error }}</p>
+      <button (click)="loadQuizzes()" class="btn btn-primary">Try Again</button>
+    </div>
+  
+    <div *ngIf="!loading && !error">
+      <div class="filters">
+        <div class="search-box">
+          <input 
+            type="text" 
+            [(ngModel)]="searchTerm" 
+            placeholder="Search quizzes by title or teacher..." 
+            class="form-control"
+          >
+          <i class="fa fa-search search-icon"></i>
+        </div>
+      </div>
+  
+      <div class="quiz-count" *ngIf="filteredQuizzes.length > 0">
+        Showing {{ filteredQuizzes.length }} of {{ quizzes.length }} quizzes
+      </div>
+  
+      <div class="no-results" *ngIf="quizzes.length > 0 && filteredQuizzes.length === 0">
+        <p>No quizzes match your search criteria. Please try a different search term.</p>
+      </div>
+  
+      <div class="no-quizzes" *ngIf="quizzes.length === 0">
+        <p>No quizzes available at the moment.</p>
+      </div>
+  
+      <div class="table-responsive" *ngIf="filteredQuizzes.length > 0">
+        <table class="quiz-table">
+          <thead>
+            <tr>
+              <th (click)="applySorting('title')">
+                Quiz Title <i class="fa" [ngClass]="getSortIcon('title')"></i>
+              </th>
+              <th (click)="applySorting('teacher')">
+                Teacher <i class="fa" [ngClass]="getSortIcon('teacher')"></i>
+              </th>
+              <th (click)="applySorting('duration')">
+                Duration (min) <i class="fa" [ngClass]="getSortIcon('duration')"></i>
+              </th>
+              <th (click)="applySorting('questions')">
+                Questions <i class="fa" [ngClass]="getSortIcon('questions')"></i>
+              </th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let quiz of filteredQuizzes">
+              <td>{{ quiz.title }}</td>
+              <td>{{ quiz.teacher.username || 'Unknown' }}</td>
+              <td>{{ quiz.duration }} minutes</td>
+              <td>{{ quiz.questions?.length || 0 }}</td>
+              <td class="actions-cell">
+                <button (click)="viewQuiz(quiz.id!)" class="btn btn-primary btn-sm">
+                  <i class="fa fa-edit"></i> View Quiz
+                </button>
+                <button (click)="viewQuizResults(quiz.id!)" class="btn btn-info btn-sm">
+                  <i class="fa fa-chart-bar"></i> View Results
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

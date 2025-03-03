@@ -1,0 +1,108 @@
+<div class="profile-container">
+    <button class="back-button" (click)="goBack()">← Back to User List</button>
+  
+    <div *ngIf="loading" class="loading">
+      Loading profile...
+    </div>
+  
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+    </div>
+  
+    <div *ngIf="!loading && !error && user" class="profile-content">
+      <div class="profile-header" [ngClass]="{'teacher-profile': user.role === 'TEACHER', 'student-profile': user.role === 'STUDENT'}">
+        <h2>{{ user.username }}'s Profile</h2>
+        <div class="role-badge">{{ user.role }}</div>
+      </div>
+  
+      <div class="profile-info">
+        <div class="info-item">
+          <label>User ID:</label>
+          <span>{{ user.id }}</span>
+        </div>
+        <div class="info-item">
+          <label>Username:</label>
+          <span>{{ user.username }}</span>
+        </div>
+        <div class="info-item">
+          <label>Email:</label>
+          <span>{{ user.email }}</span>
+        </div>
+      </div>
+  
+      <!-- Student-specific content -->
+      <div *ngIf="user.role === 'STUDENT'" class="student-content">
+        <div class="stats-container">
+          <div class="stat-box">
+            <div class="stat-value">{{ quizResults.length }}</div>
+            <div class="stat-label">Quizzes Attempted</div>
+          </div>
+          <div class="stat-box" *ngIf="quizResults.length > 0">
+            <div class="stat-value">
+              {{ calculateAverageScore() }}%
+            </div>
+            <div class="stat-label">Average Score</div>
+          </div>
+        </div>
+  
+        <h3>Quiz Results</h3>
+        <div *ngIf="quizResults.length === 0" class="no-data-message">
+          No quizzes attempted yet.
+        </div>
+        <div *ngIf="quizResults.length > 0" class="quiz-results-list">
+          <div *ngFor="let result of quizResults" class="quiz-result-item">
+            <div class="quiz-result-header">
+              <span class="quiz-title">{{ result.quiz?.title || 'Unnamed Quiz' }}</span>
+              <span class="quiz-date">{{ result.submissionTime | date:'medium' }}</span>
+            </div>
+            <div class="quiz-result-details">
+              <div class="score-container">
+                <div class="score-circle" [ngClass]="getScoreClass(result.score)">
+                  {{ result.score }}%
+                </div>
+              </div>
+              <div class="result-stats">
+                <div class="result-stat">
+                  <span class="stat-label">Correct:</span>
+                  <span class="stat-value">{{ result.answersAsList?.length || 0 }}/{{ result.quiz?.questions?.length || 0 }}</span>
+                </div>
+                <div class="result-stat">
+                  <span class="stat-label">Time Taken:</span>
+                  <span class="stat-value">N/A</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Teacher-specific content -->
+      <div *ngIf="user.role === 'TEACHER'" class="teacher-content">
+        <div class="stats-container">
+          <div class="stat-box">
+            <div class="stat-value">{{ quizzes.length }}</div>
+            <div class="stat-label">Quizzes Created</div>
+          </div>
+        </div>
+  
+        <h3>Created Quizzes</h3>
+        <div *ngIf="quizzes.length === 0" class="no-data-message">
+          No quizzes created yet.
+        </div>
+        <div *ngIf="quizzes.length > 0" class="quizzes-list">
+          <div *ngFor="let quiz of quizzes" class="quiz-item" (click)="takeQuiz(quiz.id!)">
+            <div class="quiz-title">{{ quiz.title }}</div>
+            <div class="quiz-info">
+              <span class="quiz-detail">
+                <i class="fa fa-question-circle"></i> {{ quiz.questions?.length || 0 }} Questions
+              </span>
+              <span class="quiz-detail">
+                <i class="fa fa-clock-o"></i> {{ quiz.duration }} Minutes
+              </span>
+            </div>
+            <button class="take-quiz-btn">Attempt Quiz</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

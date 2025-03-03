@@ -1,0 +1,92 @@
+<div class="container">
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Loading results...</p>
+    </div>
+  
+    <div *ngIf="error" class="error-message">
+      <p>{{ error }}</p>
+      <button (click)="navigateBack()" class="btn btn-primary">Back to Quizzes</button>
+    </div>
+  
+    <div *ngIf="!loading && !error && quiz">
+      <div class="quiz-header">
+        <button (click)="navigateBack()" class="btn btn-outline-secondary btn-sm back-button">
+          <i class="fa fa-arrow-left"></i> Back to Quizzes
+        </button>
+        <h2>Results for: {{ quiz.title }}</h2>
+        <div class="quiz-details">
+          <p><strong>Teacher:</strong> {{ quiz.teacher.username || 'Unknown' }}</p>
+          <p><strong>Duration:</strong> {{ quiz.duration }} minutes</p>
+          <p><strong>Questions:</strong> {{ quiz.questions?.length || 0 }}</p>
+        </div>
+      </div>
+  
+      <div class="filters">
+        <div class="search-box">
+          <input 
+            type="text" 
+            [(ngModel)]="searchTerm" 
+            placeholder="Search by student name..." 
+            class="form-control"
+          >
+          <i class="fa fa-search search-icon"></i>
+        </div>
+      </div>
+  
+      <div class="results-summary">
+        <div class="result-count">
+          <p>Total Attempts: <strong>{{ results.length }}</strong></p>
+        </div>
+        <div class="average-score" *ngIf="results.length > 0">
+          <p>Average Score: <strong>{{ getAverageScore() }}/{{ quiz.questions?.length || 0 }}</strong></p>
+
+        </div>
+      </div>
+  
+      <div class="no-results" *ngIf="results.length === 0">
+        <p>No quiz attempts found for this quiz.</p>
+      </div>
+  
+      <div class="table-responsive" *ngIf="filteredResults.length > 0">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th (click)="applySorting('student')">
+                Student <i class="fa" [class]="getSortIcon('student')"></i>
+              </th>
+              <th (click)="applySorting('score')">
+                Score <i class="fa" [class]="getSortIcon('score')"></i>
+              </th>
+              <th (click)="applySorting('percentage')">
+                Percentage <i class="fa" [class]="getSortIcon('percentage')"></i>
+              </th>
+              <th (click)="applySorting('submissionTime')">
+                Submission Time <i class="fa" [class]="getSortIcon('submissionTime')"></i>
+              </th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let result of filteredResults">
+              <td>{{ result.student?.username || 'Unknown' }}</td>
+              <td>{{ result.score }}/{{ quiz.questions?.length || 0 }}</td>
+              <td [class]="{
+                'high-score': getPercentage(result.score, quiz.questions?.length || 1) >= 80,
+                'medium-score': getPercentage(result.score, quiz.questions?.length || 1) >= 60 && getPercentage(result.score, quiz.questions?.length || 1) < 80,
+                'low-score': getPercentage(result.score, quiz.questions?.length || 1) < 60
+              }">
+              {{ getPercentage(result.score, quiz.questions?.length || 1).toFixed(1) }}%
+            </td>
+              <td>{{ formatDate(result.submissionTime) }}</td>
+              <td>
+                <button (click)="viewResultDetails(result.id!)" class="btn btn-info btn-sm">
+                  <i class="fa fa-eye"></i> View Details
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
