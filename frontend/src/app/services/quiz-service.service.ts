@@ -64,7 +64,12 @@ export class QuizService {
 
   // Get all results for a specific quiz
   getAllResultsForQuiz(quizId: number): Observable<QuizResult[]> {
-    return this.http.get<QuizResult[]>(`${this.apiUrl}/student/quiz/${quizId}/results`);
+    return this.http.get<QuizResult[]>(`${this.apiUrl}/teacher/results/${quizId}`);
+  }
+
+  // Add this to your QuizService
+  getQuizWithQuestionsForStudent(quizId: number): Observable<Quiz> {
+    return this.http.get<Quiz>(`${this.apiUrl}/student/quiz/${quizId}`);
   }
 }
 

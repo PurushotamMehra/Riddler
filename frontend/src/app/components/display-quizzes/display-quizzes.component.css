@@ -2,6 +2,11 @@
 .container {
   color: #171006;
   padding: 2rem;
+  max-width: 1000px;
+  margin: auto;
+  background-color: #FDF6F3;
+  border-radius: 18px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
 }
 
 /* Card Styling */
@@ -9,9 +14,12 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: none;
   background-color: #F5ECE8;
-  padding: 1.5rem;
+  padding: 1.8rem;
   border-radius: 16px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
 }
 
 .card:hover {
@@ -22,27 +30,30 @@
 /* Quiz Layout */
 .quiz-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0;
+  padding: 1.5rem 0;
+  gap: 1.5rem;
 }
 
 /* Left Section */
 .quiz-info {
   flex: 2;
+  min-width: 250px;
 }
 
 .card-title {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: #171006;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
 
 .quiz-teacher {
   font-size: 1rem;
   color: #5A3E2B;
-  margin-top: -5px;
+  margin-top: -3px;
 }
 
 /* Middle Section */
@@ -52,35 +63,45 @@
   font-size: 1rem;
   font-weight: 500;
   color: #3B2716; /* Darker shade for contrast */
+  background-color: #FFF8F2;
+  padding: 0.8rem;
+  border-radius: 12px;
 }
 
 /* Right Section */
 .quiz-action {
   flex: 1;
   text-align: right;
+  min-width: 160px;
 }
 
+/* Buttons */
 .btn {
   background-color: #171006;
   color: #E5E3E1;
   border: none;
-  padding: 14px 18px;
+  padding: 12px 18px;
   border-radius: 12px;
   cursor: pointer;
   font-size: 1rem;
   font-weight: bold;
-  transition: background 0.3s;
+  transition: background 0.3s ease, transform 0.2s ease;
   margin-left: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn:hover {
   background-color: #2A1E0F;
+  transform: scale(1.05);
 }
 
 .btn:disabled {
   background-color: #555;
   cursor: not-allowed;
   opacity: 0.7;
+  transform: none;
 }
 
 /* Increase Spacing for Overall Layout */
@@ -88,9 +109,30 @@
   margin-top: 1.5rem;
 }
 
+/* Headings */
 h2 {
   margin-bottom: 2rem;
   font-size: 2rem;
   border-bottom: 3px solid #E5C6B2;
   padding-bottom: 0.8rem;
+  text-align: center;
+  color: #171006;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .quiz-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .quiz-action {
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .btn {
+    width: 100%;
+    margin-left: 0;
+  }
 }

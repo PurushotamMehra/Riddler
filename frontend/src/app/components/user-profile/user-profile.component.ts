@@ -88,8 +88,8 @@ export class UserProfileComponent {
     });
   }
 
-  takeQuiz(quizId: number): void {
-    this.router.navigate(['/take-quiz', quizId]);
+  viewQuiz(quizId: number): void {
+    this.router.navigate(['/view-quiz', quizId]);
   }
 
   goBack(): void {

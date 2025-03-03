@@ -21,6 +21,7 @@ public class JwtUtils {
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", user.getRole().name());
+        claims.put("userId", user.getId());
         // Using only username and role to generate token - no timestamps
         return Jwts.builder()
             .setClaims(claims)
@@ -45,6 +46,15 @@ public class JwtUtils {
             .parseClaimsJws(token)
             .getBody();
         return claims.get("role", String.class);
+    }
+
+    public Long getUserIdFromToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("userId", Long.class);
     }
 
     public boolean validateToken(String token) {

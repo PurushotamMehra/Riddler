@@ -1,101 +1,112 @@
 <!-- navbar.component.html -->
 <nav class="navbar">
-    <div class="navbar-brand">
-      <a class="logo">Quiz App</a>
-    </div>
-    
-    <button class="menu-toggle" (click)="menuVisible = !menuVisible">
-      <span class="menu-icon"></span>
-    </button>
-    
-    <div class="navbar-menu" [class.visible]="menuVisible">
-      <!-- ADMIN Navigation -->
-      @if (userRole === 'ADMIN') {
-        <!-- Users Section with Dropdown -->
-        <div class="nav-item dropdown">
-          <a class="nav-link" (click)="toggleUsersDropdown()">
-            Users <span class="dropdown-icon"></span>
+  <div class="navbar-brand">
+    <a class="logo" routerLink="/">Quiz App</a>
+  </div>
+  
+  <button class="menu-toggle" (click)="menuVisible = !menuVisible">
+    <span class="menu-icon"></span>
+  </button>
+  
+  <div class="navbar-menu" [class.visible]="menuVisible">
+    <!-- ADMIN Navigation -->
+    @if (isAdmin()) {
+      <!-- Users Section with Dropdown -->
+      <div class="nav-item dropdown">
+        <a class="nav-link" (click)="toggleUsersDropdown()">
+          Users <span class="dropdown-icon"></span>
+        </a>
+        <div class="dropdown-menu" [class.show]="isUsersDropdownOpen">
+          <a class="dropdown-item" routerLink="/create-user">
+            Create User
           </a>
-          <div class="dropdown-menu" [class.show]="isUsersDropdownOpen">
-            <a class="dropdown-item" routerLink="/create-user">
-              Create User
-            </a>
-            <a class="dropdown-item" routerLink="/users">
-              View Users
-            </a>
-          </div>
-        </div>
-        
-        <!-- Quizzes Section -->
-        <div class="nav-item">
-          <a class="nav-link" routerLink="/teacher-quizzes">
-            Quizzes
+          <a class="dropdown-item" routerLink="/users">
+            View Users
           </a>
         </div>
-        
-        <!-- Results Section -->
-        <div class="nav-item">
-          <a class="nav-link" routerLink="/teacher-quizzes">
-            Results
-          </a>
-        </div>
-      }
+      </div>
       
-      <!-- TEACHER Navigation -->
-      @if (userRole === 'TEACHER') {
-        <!-- Users Section (no dropdown) -->
-        <div class="nav-item">
-          <a class="nav-link" routerLink="/user-list">
-            Users
-          </a>
-        </div>
-        
-        <!-- Quizzes Section with Dropdown -->
-        <div class="nav-item dropdown">
-          <a class="nav-link" (click)="toggleQuizzesDropdown()">
-            Quizzes <span class="dropdown-icon"></span>
-          </a>
-          <div class="dropdown-menu" [class.show]="isQuizzesDropdownOpen">
-            <a class="dropdown-item" routerLink="/teacher-quizzes">
-              View Quizzes
-            </a>
-            <a class="dropdown-item" routerLink="/create-quiz">
-              Create Quiz
-            </a>
-          </div>
-          
-        </div>
-        
-        <!-- Results Section -->
-        <div class="nav-item">
-          <a class="nav-link" routerLink="/teacher-quizzes">
-            Results
-          </a>
-        </div>
-      }
+      <!-- Quizzes Section -->
+      <div class="nav-item">
+        <a class="nav-link" routerLink="/teacher-quizzes">
+          Quizzes
+        </a>
+      </div>
       
-      <!-- STUDENT Navigation -->
-      @if (userRole === 'STUDENT') {
-        <!-- View Quiz Section -->
-        <div class="nav-item">
-          <a class="nav-link" routerLink="/quizzes">
+      <!-- Results Section -->
+      <!-- <div class="nav-item">
+        <a class="nav-link" routerLink="/quiz-results">
+          Results
+        </a>
+      </div> -->
+    }
+    
+    <!-- TEACHER Navigation -->
+    @if (isTeacher()) {
+      <!-- Students Section -->
+      <div class="nav-item">
+        <a class="nav-link" routerLink="/user-list">
+          Students
+        </a>
+      </div>
+      
+      <!-- Quizzes Section with Dropdown -->
+      <div class="nav-item dropdown">
+        <a class="nav-link" (click)="toggleQuizzesDropdown()">
+          Quizzes <span class="dropdown-icon"></span>
+        </a>
+        <div class="dropdown-menu" [class.show]="isQuizzesDropdownOpen">
+          <a class="dropdown-item" routerLink="/teacher-quizzes">
             View Quizzes
           </a>
-        </div>
-        
-        <!-- View Results Section -->
-        <div class="nav-item">
-          <a class="nav-link" routerLink="teacher-quizzes">
-            View Results
+          <a class="dropdown-item" (click)="navigateTo('/create-quiz')">
+            Create Quiz
           </a>
         </div>
-      }
+      </div>
       
-      <!-- Account/Logout button -->
+      <!-- Results Section -->
+      <div class="nav-item">
+        <a class="nav-link" (click)="navigateTo('/quiz-results')">
+          Results
+        </a>
+      </div>
+    }
+    
+    <!-- STUDENT Navigation -->
+    @if (isStudent()) {
+      <!-- View Quiz Section -->
+      <div class="nav-item">
+        <a class="nav-link" routerLink="/quizzes">
+          Available Quizzes
+        </a>
+      </div>
+      
+      <!-- View Results Section -->
+      <div class="nav-item">
+        <a class="nav-link" routerLink="/my-results">
+          My Results
+        </a>
+      </div>
+    }
+    
+    <!-- User info and Logout section -->
+    @if (currentUser) {
+      <div class="nav-item user-info">
+        <span>{{ currentUser.username }} ({{ currentUser.role }})</span>
+      </div>
+      
       <div class="nav-item logout-item">
-        <a class="nav-link" routerLink="/logout">
+        <a class="nav-link" (click)="logout()">
           Logout
         </a>
       </div>
-    </div>
-  </nav>
+    } @else {
+      <div class="nav-item">
+        <a class="nav-link" routerLink="/login">
+          Login
+        </a>
+      </div>
+    }
+  </div>
+</nav>

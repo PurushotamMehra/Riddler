@@ -1,10 +1,19 @@
-/* Container */
-.create-user-container {
-    width: 30vw; /* Slightly wider for better spacing */
-    min-width: 320px;
+/* Main container */
+:host {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 2rem;
+  }
+  
+  .create-quiz-container {
+    width: 35vw;
+    min-width: 350px;
+    /* max-height: 80vh; Limit height to fit viewport */
+    overflow-y: auto; /* Enables vertical scrolling if needed */
     height: auto;
     padding: 2rem;
-    background-color: #F5ECE8; /* Light shade */
+    background-color: #F5ECE8;
     color: #171006;
     border-radius: 16px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
@@ -12,24 +21,18 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-/* Form styling */
-form {
+  }
+  
+  /* Form */
+  form {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     width: 100%;
-}
-
-/* Heading */
-h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
-
-/* Input fields & dropdown */
-input, select {
+  }
+  
+  /* Input Fields */
+  input {
     width: 100%;
     padding: 14px;
     border: 1px solid #ccc;
@@ -38,20 +41,38 @@ input, select {
     background-color: #FDF6F3;
     color: #171006;
     outline: none;
-}
-
-/* Dropdown arrow customization */
-select {
-    appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23171006" d="M2 0L0 2h4z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 10px;
-    padding-right: 30px;
-}
-
-/* Submit button */
-button {
+  }
+  
+  /* Questions Container */
+  .question-container {
+    background-color: #FFF8F3;
+    padding: 1.2rem;
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Question Header */
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Delete Button */
+  .delete-btn {
+    background: none;
+    border: none;
+    color: #B22222;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  /* Buttons */
+  button {
     background-color: #171006;
     color: #E5E3E1;
     border: none;
@@ -62,16 +83,16 @@ button {
     font-weight: bold;
     transition: background 0.3s;
     width: 100%;
-}
-
-/* Button hover effect */
-button:hover {
+  }
+  
+  /* Button hover */
+  button:hover {
     background-color: #2A1E0F;
-}
-
-/* Disabled button */
-button:disabled {
+  }
+  
+  /* Disabled Button */
+  button:disabled {
     background-color: #555;
     cursor: not-allowed;
     opacity: 0.7;
-}
+  }

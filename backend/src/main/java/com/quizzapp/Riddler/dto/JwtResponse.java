@@ -1,5 +1,4 @@
 package com.quizzapp.Riddler.dto;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -9,4 +8,5 @@ public class JwtResponse {
     private String token;
     private String username;
     private String role;
+    private Long userId;
 }

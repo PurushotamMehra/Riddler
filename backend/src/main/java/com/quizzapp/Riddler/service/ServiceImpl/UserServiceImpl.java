@@ -54,25 +54,25 @@ public class UserServiceImpl implements UserService{
     }
 
     
-    // public User login(String username, String password) {
-    //     User user = userRepo.findByUsername(username);
-    //     if (user == null) {
-    //         throw new EntityNotFoundException("User with username '" + username + "' not found");
-    //     }
-    //     if (!user.getPassword().equals(password)) { // Note: In production, use password encoding
-    //         throw new IllegalArgumentException("Incorrect password");
-    //     }
-    //     return user;
-    // }
-
     public User login(String username, String password) {
         User user = userRepo.findByUsername(username);
         if (user == null) {
             throw new EntityNotFoundException("User with username '" + username + "' not found");
         }
-        // Ignore password verification for now
+        if (!user.getPassword().equals(password)) { 
+            throw new IllegalArgumentException("Incorrect password");
+        }
         return user;
     }
+
+    // public User login(String username, String password) {
+    //     User user = userRepo.findByUsername(username);
+    //     if (user == null) {
+    //         throw new EntityNotFoundException("User with username '" + username + "' not found");
+    //     }
+    //     // Ignore password verification for now
+    //     return user;
+    // }
     
     
 }

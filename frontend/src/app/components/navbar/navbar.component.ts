@@ -1,25 +1,36 @@
-/// navbar.component.ts
-import { Component, OnInit, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth-service.service';
+import { CommonModule, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
-  // standalone: true,
-  imports: [CommonModule, RouterModule]
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    NgIf
+  ]
 })
 export class NavbarComponent implements OnInit {
-  @Input() userRole: string = 'STUDENT'; // This can be set from parent component
   isUsersDropdownOpen: boolean = false;
   isQuizzesDropdownOpen: boolean = false;
-  menuVisible: boolean = false; // ✅ Added this to fix the error
+  menuVisible: boolean = false;
+  currentUser: any;
 
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
-    // You can add any initialization logic here
+    // Subscribe to current user changes
+    this.authService.currentUser.subscribe(user => {
+      this.currentUser = user;
+      console.log('Current user in navbar:', user); // Debug log
+    });
   }
 
   toggleUsersDropdown(): void {
@@ -36,5 +47,35 @@ export class NavbarComponent implements OnInit {
     if (this.isQuizzesDropdownOpen) {
       this.isUsersDropdownOpen = false;
     }
+  }
+
+  // Helper methods to check user role
+  isAdmin(): boolean {
+    const isAdminUser = this.currentUser?.role === 'ADMIN';
+    console.log('Is admin check:', isAdminUser); // Debug log
+    return isAdminUser;
+  }
+
+  isTeacher(): boolean {
+    const isTeacherUser = this.currentUser?.role === 'TEACHER';
+    console.log('Is teacher check:', isTeacherUser); // Debug log
+    return isTeacherUser;
+  }
+
+  isStudent(): boolean {
+    const isStudentUser = this.currentUser?.role === 'STUDENT';
+    console.log('Is student check:', isStudentUser); // Debug log
+    return isStudentUser;
+  }
+
+  // Logout handler
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+
+  navigateTo(route: string): void {
+    this.isUsersDropdownOpen = false; // Close the dropdown
+    this.router.navigate([route]);
   }
 }

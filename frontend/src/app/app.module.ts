@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { CreateQuizComponent } from './components/create-quiz/create-quiz.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TakeQuizComponent } from './components/take-quiz/take-quiz.component';
 import { DisplayQuizzesComponent } from './components/display-quizzes/display-quizzes.component';
 import { UpdateUserComponent } from './components/update-user/update-user.component';
@@ -20,6 +20,8 @@ import { UserListComponent } from './components/user-list/user-list.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ViewQuizComponent } from './components/view-quiz/view-quiz.component';
+import { JwtInterceptor } from './helpers/interceptors /JwtInterceptor';
+import { RouterModule } from '@angular/router';
 import { StudentResultsComponent } from './components/student-results/student-results.component';
 
 @NgModule({
@@ -39,7 +41,7 @@ import { StudentResultsComponent } from './components/student-results/student-re
     UserListComponent,
     UserProfileComponent,
     ViewQuizComponent,
-    StudentResultsComponent,
+    StudentResultsComponent
   ],
   imports: [
     HttpClientModule,
@@ -47,9 +49,10 @@ import { StudentResultsComponent } from './components/student-results/student-re
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule,
     NavbarComponent
 ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

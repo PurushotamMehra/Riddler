@@ -90,7 +90,7 @@
           No quizzes created yet.
         </div>
         <div *ngIf="quizzes.length > 0" class="quizzes-list">
-          <div *ngFor="let quiz of quizzes" class="quiz-item" (click)="takeQuiz(quiz.id!)">
+          <div *ngFor="let quiz of quizzes" class="quiz-item" (click)="viewQuiz(quiz.id!)">
             <div class="quiz-title">{{ quiz.title }}</div>
             <div class="quiz-info">
               <span class="quiz-detail">
@@ -100,7 +100,7 @@
                 <i class="fa fa-clock-o"></i> {{ quiz.duration }} Minutes
               </span>
             </div>
-            <button class="take-quiz-btn">Attempt Quiz</button>
+            <button class="take-quiz-btn">View Quiz</button>
           </div>
         </div>
       </div>

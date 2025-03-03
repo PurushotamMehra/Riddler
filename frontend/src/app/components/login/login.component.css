@@ -1,5 +1,13 @@
-/* Centered login container */
-.login-container {
+/* Host element targeting */
+:host {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 2rem;
+  }
+  
+  /* Centered login container */
+  .login-container {
     width: 25vw; /* Reduced width */
     min-width: 320px; /* Ensures it doesn't get too small on mobile */
     height: 40vh; /* Keeps the vertical size */
@@ -12,24 +20,24 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-/* Form styling */
-form {
+  }
+  
+  /* Form styling */
+  form {
     display: flex;
     flex-direction: column;
     gap: 1.5rem; /* More spacing between fields */
     width: 100%;
-}
-
-/* Heading */
-h2 {
+  }
+  
+  /* Heading */
+  h2 {
     font-size: 2.5rem; /* Bigger heading */
     margin-bottom: 2rem;
-}
-
-/* Input fields */
-input {
+  }
+  
+  /* Input fields */
+  input {
     width: 100%;
     padding: 14px;
     border: 1px solid #ccc;
@@ -38,10 +46,10 @@ input {
     background-color: #FDF6F3; /* Lightest shade */
     color: #171006;
     outline: none;
-}
-
-/* Submit button */
-button {
+  }
+  
+  /* Submit button */
+  button {
     background-color: #171006;
     color: #E5E3E1;
     border: none;
@@ -52,15 +60,15 @@ button {
     font-weight: bold;
     transition: background 0.3s;
     width: 100%;
-}
-
-/* Button hover effect */
-button:hover {
+  }
+  
+  /* Button hover effect */
+  button:hover {
     background-color: #2A1E0F;
-}
-
-button:disabled {
+  }
+  
+  button:disabled {
     background-color: #555; /* lighter gray */
     cursor: not-allowed;
     opacity: 0.7;
-}
+  }
