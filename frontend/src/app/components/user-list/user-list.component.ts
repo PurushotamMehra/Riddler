@@ -5,65 +5,48 @@ import { User } from '../../models/user';
 import { UserService } from '../../services/user-service.service';
 
 @Component({
-  selector: 'app-user-list',
-  standalone: false,
-  templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.css'
+ selector: 'app-user-list',
+ standalone: false,
+ templateUrl: './user-list.component.html',
+ styleUrl: './user-list.component.css'
 })
 export class UserListComponent implements OnInit {
-  users: User[] = [];
-  filteredUsers: User[] = [];
-  loading: boolean = true;
-  error: string | null = null;
-  activeFilter: string = 'ALL';
+ users: User[] = [];
+ filteredUsers: User[] = [];
+ loading: boolean = true;
+ error: string | null = null;
 
-  constructor(
-    private userService: UserService,
-    private router: Router
-  ) {}
+constructor(
+  private userService: UserService,
+  private router: Router
+) {}
 
-  ngOnInit(): void {
-    this.loadUsers();
-  }
+ngOnInit(): void {
+  this.loadUsers();
+}
 
-  loadUsers(): void {
-    this.loading = true;
-    this.userService.getAllUsers().subscribe({
-      next: (data: User[]) => {
-        // Filter out ADMIN users
-        this.users = data.filter(user => user.role !== Role.ADMIN);
-        this.filteredUsers = [...this.users];
-        this.loading = false;
-      },
-      error: (error: any) => {
-        console.error('Error loading users', error);
-        this.error = 'Failed to load users. Please try again.';
-        this.loading = false;
-      }
-    });
-  }
-
-  filterByRole(role: string): void {
-    this.activeFilter = role;
-    if (role === 'ALL') {
+loadUsers(): void {
+  this.loading = true;
+  this.userService.getAllUsers().subscribe({
+    next: (data: User[]) => {
+      // Filter only STUDENT users
+      this.users = data.filter(user => user.role === Role.STUDENT);
       this.filteredUsers = [...this.users];
-    } else {
-      this.filteredUsers = this.users.filter(user => user.role === role);
+      this.loading = false;
+    },
+    error: (error: any) => {
+      console.error('Error loading users', error);
+      this.error = 'Failed to load users. Please try again.';
+      this.loading = false;
     }
-  }
+  });
+}
 
-  viewUserProfile(user: User): void {
-    this.router.navigate(['/user-profile', user.id]);
-  }
+viewUserProfile(user: User): void {
+  this.router.navigate(['/user-profile', user.id]);
+}
 
-  getRoleClass(role: Role): string {
-    switch (role) {
-      case Role.TEACHER:
-        return 'teacher-role';
-      case Role.STUDENT:
-        return 'student-role';
-      default:
-        return '';
-    }
-  }
+getRoleClass(role: Role): string {
+  return role === Role.STUDENT ? 'student-role' : '';
+}
 }

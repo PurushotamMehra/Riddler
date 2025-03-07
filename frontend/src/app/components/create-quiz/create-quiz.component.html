@@ -1,69 +1,124 @@
 <div class="create-quiz-container">
-    <h2>Create a Quiz</h2>
-    <form (ngSubmit)="onSubmit()">
-      <!-- Quiz Title -->
-      <div class="form-group">
-        <label for="title">Quiz Title</label>
-        <input type="text" id="title" placeholder="Quiz Name" [(ngModel)]="quiz.title" name="title" required>
-      </div>
-  
-      <!-- Time Limit -->
-      <div class="form-group">
-        <label for="duration">Time Limit (minutes)</label>
-        <input type="number" id="duration" placeholder="Time Limit (in minutes)" [(ngModel)]="quiz.duration" name="duration" required>
-      </div>
-  
-      <!-- Questions List -->
-      <div *ngFor="let question of quiz.questions; let i = index" class="question-container">
-        <div class="question-header">
-          <h3>Question {{ i + 1 }}</h3>
-          <button type="button" class="delete-btn" (click)="removeQuestion(i)">Delete</button>
-        </div>
+  <div class="quiz-layout">
+    <div class="quiz-form">
+      <form (ngSubmit)="onSubmit()">
+        <input
+          type="text"
+          [(ngModel)]="quiz.title"
+          name="quizTitle"
+          placeholder="Quiz Title"
+          (input)="validateForm()"
+          required
+        >
         
-        <div class="form-group">
-          <label for="questionText{{i}}">Question</label>
-          <input type="text" id="questionText{{i}}" placeholder="Question" [(ngModel)]="question.questionText" name="questionText{{i}}" required>
-        </div>
+        <input
+          type="number"
+          [(ngModel)]="quiz.duration"
+          name="duration"
+          placeholder="Time Limit (minutes)"
+          (input)="validateForm()"
+          min="1"
+          required
+        >
         
-        <div class="form-group">
-          <label for="option1{{i}}">Option 1</label>
-          <input type="text" id="option1{{i}}" placeholder="Option 1" [(ngModel)]="question.option1" name="option1{{i}}" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="option2{{i}}">Option 2</label>
-          <input type="text" id="option2{{i}}" placeholder="Option 2" [(ngModel)]="question.option2" name="option2{{i}}" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="option3{{i}}">Option 3</label>
-          <input type="text" id="option3{{i}}" placeholder="Option 3" [(ngModel)]="question.option3" name="option3{{i}}" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="option4{{i}}">Option 4</label>
-          <input type="text" id="option4{{i}}" placeholder="Option 4" [(ngModel)]="question.option4" name="option4{{i}}" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="correctOption{{i}}">Correct Answer</label>
-          <select id="correctOption{{i}}" [(ngModel)]="question.correctOption" name="correctOption{{i}}" required>
-            <option [value]="1">Option 1</option>
-            <option [value]="2">Option 2</option>
-            <option [value]="3">Option 3</option>
-            <option [value]="4">Option 4</option>
+        <!-- Question Form -->
+        <div *ngIf="currentQuestionIndex !== null && quiz.questions" class="question-container">
+          <div class="question-header">
+            <span>Question {{ currentQuestionIndex + 1 }}</span>
+            <button
+              type="button"
+              class="delete-btn"
+              (click)="removeQuestion(currentQuestionIndex)"
+            >
+              ✕
+            </button>
+          </div>
+          
+          <input
+            type="text"
+            [(ngModel)]="quiz.questions[currentQuestionIndex].questionText"
+            name="questionText"
+            placeholder="Question"
+            (input)="validateForm()"
+            required
+          >
+          
+          <input
+            type="text"
+            [(ngModel)]="quiz.questions[currentQuestionIndex].option1"
+            name="option1"
+            placeholder="Option 1"
+            (input)="validateForm()"
+            required
+          >
+          
+          <input
+            type="text"
+            [(ngModel)]="quiz.questions[currentQuestionIndex].option2"
+            name="option2"
+            placeholder="Option 2"
+            (input)="validateForm()"
+            required
+          >
+          
+          <input
+            type="text"
+            [(ngModel)]="quiz.questions[currentQuestionIndex].option3"
+            name="option3"
+            placeholder="Option 3"
+            (input)="validateForm()"
+            required
+          >
+          
+          <input
+            type="text"
+            [(ngModel)]="quiz.questions[currentQuestionIndex].option4"
+            name="option4"
+            placeholder="Option 4"
+            (input)="validateForm()"
+            required
+          >
+          
+          <select
+            [(ngModel)]="quiz.questions[currentQuestionIndex].correctOption"
+            name="correctOption"
+            (change)="validateForm()"
+            required
+          >
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+            <option value="4">Option 4</option>
           </select>
         </div>
+        
+        <button
+          type="button"
+          (click)="addQuestion()"
+          [disabled]="!isFormValid"
+        >
+          Add Question
+        </button>
+        
+        <button
+          type="submit"
+          [disabled]="!isFormValid || !quiz.questions || quiz.questions.length === 0"
+        >
+          Create Quiz
+        </button>
+      </form>
+    </div>
+    
+    <div class="quiz-list" *ngIf="quiz.title && quiz.questions && quiz.questions.length > 0">
+      <h2>{{ quiz.title }}</h2>
+      <div
+        *ngFor="let question of quiz.questions; let i = index"
+        class="question-list-item"
+        (click)="editQuestion(i)"
+      >
+        <span class="question-number">Q{{ i + 1 }}</span>
+        <span class="question-text">{{ question.questionText }}</span>
       </div>
-  
-      <!-- Add Question Button -->
-      <button type="button" (click)="addQuestion()" [disabled]="quiz.questions!.length >= 30" class="btn-add-question">
-        Add Question
-      </button>
-  
-      <!-- Submit Button -->
-      <button type="submit" [disabled]="quiz.questions!.length === 0 || !quiz.title || !quiz.duration" class="btn-submit">
-        Create Quiz
-      </button>
-    </form>
+    </div>
   </div>
+</div>

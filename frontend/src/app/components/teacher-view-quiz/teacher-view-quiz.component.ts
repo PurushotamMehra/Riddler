@@ -1,7 +1,7 @@
-// teacher-view-quiz.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Quiz } from '../../models/quiz';
 import { QuizService } from '../../services/quiz-service.service';
+import { AuthService } from '../../services/auth-service.service';
 import { Router, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
 
 @Component({
@@ -20,9 +20,9 @@ export class TeacherViewQuizComponent implements OnInit {
 
   constructor(
     private quizService: QuizService,
+    private authService: AuthService,
     private router: Router
   ) {
-    // Add router event subscription for debugging navigation
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         console.log('Navigation started to:', event.url);
@@ -42,28 +42,46 @@ export class TeacherViewQuizComponent implements OnInit {
 
   loadQuizzes(): void {
     this.loading = true;
-    this.quizService.getAllQuizzes().subscribe({
-      next: (data: Quiz[]) => {
-        this.quizzes = data;
-        this.loading = false;
-      },
-      error: (error: any) => {
-        console.error('Error loading quizzes', error);
-        this.error = 'Failed to load quizzes. Please try again.';
-        this.loading = false;
-      }
-    });
+    const userRole = this.authService.getUserRole();
+    const userId = this.authService.getUserId();
+
+    if (userRole === 'ADMIN') {
+      // For ADMIN, load all quizzes
+      this.quizService.getAllQuizzes().subscribe({
+        next: (data: Quiz[]) => {
+          this.quizzes = data;
+          this.loading = false;
+        },
+        error: (error: any) => {
+          console.error('Error loading quizzes', error);
+          this.error = 'Failed to load quizzes. Please try again.';
+          this.loading = false;
+        }
+      });
+    } else if (userRole === 'TEACHER' && userId) {
+      // For TEACHER, load only their own quizzes
+      this.quizService.getTeacherQuizzes(parseInt(userId)).subscribe({
+        next: (data: Quiz[]) => {
+          this.quizzes = data;
+          this.loading = false;
+        },
+        error: (error: any) => {
+          console.error('Error loading teacher quizzes', error);
+          this.error = 'Failed to load your quizzes. Please try again.';
+          this.loading = false;
+        }
+      });
+    } else {
+      // For other roles or if no user ID, handle accordingly
+      this.error = 'Not authorized to view quizzes';
+      this.loading = false;
+    }
   }
 
   viewQuizResults(quizId: number): void {
     console.log('Attempting to navigate to quiz results for quiz ID:', quizId);
-    
-    // Validate quizId before navigation
     if (quizId && !isNaN(quizId)) {
-      // Using both methods for testing which one works
       this.router.navigate(['/quiz-results', quizId]);
-      // If the above doesn't work, uncomment the line below
-      // this.router.navigateByUrl(`/quiz-results/${quizId}`);
     } else {
       console.error('Invalid quiz ID for navigation:', quizId);
       this.error = 'Invalid quiz ID. Cannot view results.';
@@ -76,7 +94,6 @@ export class TeacherViewQuizComponent implements OnInit {
 
   get filteredQuizzes(): Quiz[] {
     let filtered = this.quizzes;
-    
     // Apply search filter
     if (this.searchTerm.trim()) {
       const term = this.searchTerm.toLowerCase().trim();
@@ -85,11 +102,9 @@ export class TeacherViewQuizComponent implements OnInit {
         quiz.teacher?.username?.toLowerCase().includes(term)
       );
     }
-    
     // Apply sorting
     filtered = [...filtered].sort((a, b) => {
       let comparison = 0;
-      
       switch (this.sortBy) {
         case 'title':
           comparison = a.title.localeCompare(b.title);
@@ -104,10 +119,8 @@ export class TeacherViewQuizComponent implements OnInit {
           comparison = (a.questions?.length || 0) - (b.questions?.length || 0);
           break;
       }
-      
       return this.sortOrder === 'asc' ? comparison : -comparison;
     });
-    
     return filtered;
   }
 

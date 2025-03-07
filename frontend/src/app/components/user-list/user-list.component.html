@@ -1,60 +1,40 @@
 <div class="user-list-container">
-    <h2>User Management</h2>
-    
-    <div class="filter-buttons">
-      <button 
-        [class.active]="activeFilter === 'ALL'" 
-        (click)="filterByRole('ALL')">
-        ALL
-      </button>
-      <button 
-        [class.active]="activeFilter === 'TEACHER'" 
-        (click)="filterByRole('TEACHER')">
-        TEACHERS
-      </button>
-      <button 
-        [class.active]="activeFilter === 'STUDENT'" 
-        (click)="filterByRole('STUDENT')">
-        STUDENTS
-      </button>
-    </div>
+  <h2>Student Management</h2>
   
-    <div *ngIf="loading" class="loading">
-      Loading users...
-    </div>
-  
-    <div *ngIf="error" class="error-message">
-      {{ error }}
-    </div>
-  
-    <div *ngIf="!loading && !error">
-      <div *ngIf="filteredUsers.length === 0" class="no-users">
-        No users found with the selected filter.
-      </div>
-      
-      <table *ngIf="filteredUsers.length > 0" class="users-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let user of filteredUsers" 
-              [class]="getRoleClass(user.role)"
-              (click)="viewUserProfile(user)">
-            <td>{{ user.id }}</td>
-            <td>{{ user.username }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.role }}</td>
-            <td>
-              <button class="view-profile-btn">View Profile</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div *ngIf="loading" class="loading">
+    Loading students...
   </div>
+  
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+  
+  <div *ngIf="!loading && !error">
+    <div *ngIf="filteredUsers.length === 0" class="no-users">
+      No students found.
+    </div>
+    
+    <table *ngIf="filteredUsers.length > 0" class="users-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of filteredUsers"
+            [class]="getRoleClass(user.role)"
+            (click)="viewUserProfile(user)">
+          <td>{{ user.id }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <button class="view-profile-btn">View Profile</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+ </div>

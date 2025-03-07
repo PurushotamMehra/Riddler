@@ -57,9 +57,9 @@
             </div>
             <div class="quiz-result-details">
               <div class="score-container">
-                <div class="score-circle" [ngClass]="getScoreClass(result.score)">
+                <!-- <div class="score-circle" [ngClass]="getScoreClass(result.score)">
                   {{ result.score }}%
-                </div>
+                </div> -->
               </div>
               <div class="result-stats">
                 <div class="result-stat">
@@ -72,35 +72,6 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Teacher-specific content -->
-      <div *ngIf="user.role === 'TEACHER'" class="teacher-content">
-        <div class="stats-container">
-          <div class="stat-box">
-            <div class="stat-value">{{ quizzes.length }}</div>
-            <div class="stat-label">Quizzes Created</div>
-          </div>
-        </div>
-  
-        <h3>Created Quizzes</h3>
-        <div *ngIf="quizzes.length === 0" class="no-data-message">
-          No quizzes created yet.
-        </div>
-        <div *ngIf="quizzes.length > 0" class="quizzes-list">
-          <div *ngFor="let quiz of quizzes" class="quiz-item" (click)="viewQuiz(quiz.id!)">
-            <div class="quiz-title">{{ quiz.title }}</div>
-            <div class="quiz-info">
-              <span class="quiz-detail">
-                <i class="fa fa-question-circle"></i> {{ quiz.questions?.length || 0 }} Questions
-              </span>
-              <span class="quiz-detail">
-                <i class="fa fa-clock-o"></i> {{ quiz.duration }} Minutes
-              </span>
-            </div>
-            <button class="take-quiz-btn">View Quiz</button>
           </div>
         </div>
       </div>
