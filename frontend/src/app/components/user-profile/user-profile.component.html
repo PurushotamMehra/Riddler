@@ -39,7 +39,7 @@
           </div>
           <div class="stat-box" *ngIf="quizResults.length > 0">
             <div class="stat-value">
-              {{ calculateAverageScore() }}%
+              {{ calculateAverageScore() }}
             </div>
             <div class="stat-label">Average Score</div>
           </div>
@@ -66,10 +66,10 @@
                   <span class="stat-label">Correct:</span>
                   <span class="stat-value">{{ result.answersAsList?.length || 0 }}/{{ result.quiz?.questions?.length || 0 }}</span>
                 </div>
-                <div class="result-stat">
+                <!-- <div class="result-stat">
                   <span class="stat-label">Time Taken:</span>
                   <span class="stat-value">N/A</span>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>

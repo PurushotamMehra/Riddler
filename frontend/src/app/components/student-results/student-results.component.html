@@ -60,7 +60,7 @@
                   <td>{{ result.quiz?.title }}</td>
                   <td>
                     <span [ngClass]="getScoreClass(result.score)" class="badge rounded-pill">
-                      {{ result.score }}%
+                      {{ result.score }}/5
                     </span>
                   </td>
                   <td>{{ formatDate(result.submissionTime) }}</td>

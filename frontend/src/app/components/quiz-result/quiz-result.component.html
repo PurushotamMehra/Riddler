@@ -1,69 +1,46 @@
 <div class="container">
-    <div *ngIf="loading" class="loading">
-      <div class="spinner"></div>
-      <p>Loading result...</p>
-    </div>
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading result...</p>
+  </div>
   
-    <div *ngIf="error" class="error-message">
-      <p>{{ error }}</p>
+  <div *ngIf="error" class="error-message">
+    <p>{{ error }}</p>
+    <button (click)="navigateToDashboard()" class="btn btn-primary">Return to Dashboard</button>
+  </div>
+  
+  <div *ngIf="!loading && !error && result" class="result-container">
+    <h2>Quiz Result</h2>
+    <div class="result-card">
+      <div class="result-header">
+        <h3>{{ result.quiz?.title }}</h3>
+        <p>Submitted: {{ formatDate(result.submissionTime) }}</p>
+      </div>
+      
+      <div class="score-display">
+        <div class="score-circle" [ngClass]="{
+          'high-score': getPercentage(result.score, result.quiz?.questions?.length || 1) >= 80,
+          'medium-score': getPercentage(result.score, result.quiz?.questions?.length || 1) >= 60 && getPercentage(result.score, result.quiz?.questions?.length || 1) < 80,
+          'low-score': getPercentage(result.score, result.quiz?.questions?.length || 1) < 60
+        }">
+          <span class="score-value">{{ result.score }}</span>
+          <span class="score-total">/{{ result.quiz?.questions?.length }}</span>
+        </div>
+        
+        <div class="score-percentage">
+          {{ getPercentage(result.score, result.quiz?.questions?.length || 1).toFixed(1) }}%
+        </div>
+      </div>
+      
+      <div class="result-message">
+        <p *ngIf="getPercentage(result.score, result.quiz?.questions?.length || 1) >= 80">Excellent work!</p>
+        <p *ngIf="getPercentage(result.score, result.quiz?.questions?.length || 1) >= 60 && getPercentage(result.score, result.quiz?.questions?.length || 1) < 80">Good job!</p>
+        <p *ngIf="getPercentage(result.score, result.quiz?.questions?.length || 1) < 60">Keep practicing!</p>
+      </div>
+    </div>
+    
+    <div class="actions">
       <button (click)="navigateToDashboard()" class="btn btn-primary">Return to Dashboard</button>
     </div>
-  
-    <div *ngIf="!loading && !error && result" class="result-container">
-      <h2>Quiz Result</h2>
-      
-      <div class="result-card">
-        <div class="result-header">
-          <h3>{{ result.quiz?.title }}</h3>
-          <p>Submitted: {{ formatDate(result.submissionTime) }}</p>
-        </div>
-        
-        <div class="score-display">
-          <div class="score-circle" [ngClass]="{
-            'high-score': getPercentage(result.score, result.quiz?.questions?.length || 1) >= 80,
-            'medium-score': getPercentage(result.score, result.quiz?.questions?.length || 1) >= 60 && getPercentage(result.score, result.quiz?.questions?.length || 1) < 80,
-            'low-score': getPercentage(result.score, result.quiz?.questions?.length || 1) < 60
-          }">
-            <span class="score-value">{{ result.score }}</span>
-            <span class="score-total">/{{ result.quiz?.questions?.length }}</span>
-          </div>
-          <div class="score-percentage">
-            {{ getPercentage(result.score, result.quiz?.questions?.length || 1).toFixed(1) }}%
-          </div>
-        </div>
-        
-        <div class="result-message">
-          <p *ngIf="getPercentage(result.score, result.quiz?.questions?.length || 1) >= 80">Excellent work!</p>
-          <p *ngIf="getPercentage(result.score, result.quiz?.questions?.length || 1) >= 60 && getPercentage(result.score, result.quiz?.questions?.length || 1) < 80">Good job!</p>
-          <p *ngIf="getPercentage(result.score, result.quiz?.questions?.length || 1) < 60">Keep practicing!</p>
-        </div>
-      </div>
-  
-      <h3>All Results for this Quiz</h3>
-      
-      <div class="table-responsive">
-        <table class="results-table">
-          <thead>
-            <tr>
-              <th>Student</th>
-              <th>Score</th>
-              <th>Percentage</th>
-              <th>Submission Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let res of allResults" [ngClass]="{'current-result': res.id === result.id}">
-              <td>{{ res.student?.username || 'Unknown' }}</td>
-              <td>{{ res.score }}/{{ res.quiz?.questions?.length }}</td>
-              <td>{{ getPercentage(res.score, res.quiz?.questions?.length || 1).toFixed(1) }}%</td>
-              <td>{{ formatDate(res.submissionTime) }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      
-      <div class="actions">
-        <button (click)="navigateToDashboard()" class="btn btn-primary">Return to Dashboard</button>
-      </div>
-    </div>
   </div>
+</div>

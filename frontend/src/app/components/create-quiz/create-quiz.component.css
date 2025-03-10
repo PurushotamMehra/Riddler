@@ -104,6 +104,7 @@
   }
   
   .delete-btn {
+    width: 20px;
     background: none;
     border: none;
     color: #B22222;
