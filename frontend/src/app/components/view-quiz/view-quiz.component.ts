@@ -73,6 +73,6 @@ export class ViewQuizComponent implements OnInit {
   navigateBack(): void {
     // Navigate back based on user role
     // This can be enhanced to check user role and navigate accordingly
-    this.router.navigate(['/quizzes']);
+    this.router.navigate(['/teacher-quizzes']);
   }
 }

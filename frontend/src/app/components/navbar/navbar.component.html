@@ -1,112 +1,33 @@
-<!-- navbar.component.html -->
-<nav class="navbar">
-  <div class="navbar-brand">
-    <a class="logo" routerLink="/">Quiz App</a>
+<!-- Update the Users dropdown section -->
+<div class="nav-item dropdown" 
+     (mouseenter)="onUsersMouseEnter()" 
+     (mouseleave)="onUsersMouseLeave()">
+  <a class="nav-link" (click)="toggleUsersDropdown()">
+    Users <span class="dropdown-icon"></span>
+  </a>
+  <div class="dropdown-menu" [class.show]="isUsersDropdownOpen">
+    <a class="dropdown-item" routerLink="/create-user">
+      Create User
+    </a>
+    <a class="dropdown-item" routerLink="/users">
+      View Users
+    </a>
   </div>
-  
-  <button class="menu-toggle" (click)="menuVisible = !menuVisible">
-    <span class="menu-icon"></span>
-  </button>
-  
-  <div class="navbar-menu" [class.visible]="menuVisible">
-    <!-- ADMIN Navigation -->
-    @if (isAdmin()) {
-      <!-- Users Section with Dropdown -->
-      <div class="nav-item dropdown">
-        <a class="nav-link" (click)="toggleUsersDropdown()">
-          Users <span class="dropdown-icon"></span>
-        </a>
-        <div class="dropdown-menu" [class.show]="isUsersDropdownOpen">
-          <a class="dropdown-item" routerLink="/create-user">
-            Create User
-          </a>
-          <a class="dropdown-item" routerLink="/users">
-            View Users
-          </a>
-        </div>
-      </div>
-      
-      <!-- Quizzes Section -->
-      <div class="nav-item">
-        <a class="nav-link" routerLink="/teacher-quizzes">
-          Quizzes
-        </a>
-      </div>
-      
-      <!-- Results Section -->
-      <!-- <div class="nav-item">
-        <a class="nav-link" routerLink="/quiz-results">
-          Results
-        </a>
-      </div> -->
-    }
-    
-    <!-- TEACHER Navigation -->
-    @if (isTeacher()) {
-      <!-- Students Section -->
-      <div class="nav-item">
-        <a class="nav-link" routerLink="/user-list">
-          Students
-        </a>
-      </div>
-      
-      <!-- Quizzes Section with Dropdown -->
-      <div class="nav-item dropdown">
-        <a class="nav-link" (click)="toggleQuizzesDropdown()">
-          Quizzes <span class="dropdown-icon"></span>
-        </a>
-        <div class="dropdown-menu" [class.show]="isQuizzesDropdownOpen">
-          <a class="dropdown-item" routerLink="/teacher-quizzes">
-            View Quizzes
-          </a>
-          <a class="dropdown-item" (click)="navigateTo('/create-quiz')">
-            Create Quiz
-          </a>
-        </div>
-      </div>
-      
-      <!-- Results Section -->
-      <div class="nav-item">
-        <a class="nav-link" (click)="navigateTo('/quiz-results')">
-          Results
-        </a>
-      </div>
-    }
-    
-    <!-- STUDENT Navigation -->
-    @if (isStudent()) {
-      <!-- View Quiz Section -->
-      <div class="nav-item">
-        <a class="nav-link" routerLink="/quizzes">
-          Available Quizzes
-        </a>
-      </div>
-      
-      <!-- View Results Section -->
-      <div class="nav-item">
-        <a class="nav-link" routerLink="/my-results">
-          My Results
-        </a>
-      </div>
-    }
-    
-    <!-- User info and Logout section -->
-    @if (currentUser) {
-      <div class="nav-item user-info">
-        <span>{{ currentUser.username }} ({{ currentUser.role }})</span>
-      </div>
-      
-      <div class="nav-item logout-item">
-        <a class="nav-link" (click)="logout()">
-          Logout
-        </a>
-      </div>
-    } @else {
-      <div class="nav-item">
-        <a class="nav-link" routerLink="/login">
-          Login
-        </a>
-      </div>
-    }
+</div>
+
+<!-- Update the Quizzes dropdown section for teachers -->
+<div class="nav-item dropdown" 
+     (mouseenter)="onQuizzesMouseEnter()" 
+     (mouseleave)="onQuizzesMouseLeave()">
+  <a class="nav-link" (click)="toggleQuizzesDropdown()">
+    Quizzes <span class="dropdown-icon"></span>
+  </a>
+  <div class="dropdown-menu" [class.show]="isQuizzesDropdownOpen">
+    <a class="dropdown-item" routerLink="/teacher-quizzes">
+      View Quizzes
+    </a>
+    <a class="dropdown-item" (click)="navigateTo('/create-quiz')">
+      Create Quiz
+    </a>
   </div>
-</nav>
+</div>

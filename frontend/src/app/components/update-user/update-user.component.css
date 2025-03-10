@@ -1,121 +1,138 @@
-/* Inheriting styles from create-user.component.css */
+/* Ensure the component is fully centered on the screen */
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh; /* Ensure full viewport height */
+  margin: 0;
+}
+
+/* Container for the update user form */
 .create-user-container {
-    width: 30vw; /* Slightly wider for better spacing */
-    min-width: 320px;
-    height: auto;
-    padding: 2rem;
-    background-color: #F5ECE8; /* Light shade */
-    color: #171006;
-    border-radius: 16px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Form styling */
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    width: 100%;
-  }
-  
-  /* Heading */
-  h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-  
-  /* Input fields & dropdown */
-  input, select {
-    width: 100%;
-    padding: 14px;
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    font-size: 16px;
-    background-color: #FDF6F3;
-    color: #171006;
-    outline: none;
-  }
-  
-  /* Dropdown arrow customization */
-  select {
-    appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23171006" d="M2 0L0 2h4z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 10px;
-    padding-right: 30px;
-  }
-  
-  /* Button group for update and cancel */
-  .button-group {
-    display: flex;
-    gap: 1rem;
-    width: 100%;
-  }
-  
-  /* Update button */
-  .update-btn {
-    background-color: #171006;
-    color: #E5E3E1;
-    border: none;
-    padding: 14px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    transition: background 0.3s;
-    flex: 3;
-  }
-  
-  /* Cancel button */
-  .cancel-btn {
-    background-color: #9E9A97;
-    color: #171006;
-    border: none;
-    padding: 14px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    transition: background 0.3s;
-    flex: 1;
-  }
-  
-  /* Button hover effects */
-  .update-btn:hover {
-    background-color: #2A1E0F;
-  }
-  
-  .cancel-btn:hover {
-    background-color: #7A7673;
-  }
-  
-  /* Disabled button */
-  button:disabled {
-    background-color: #555;
-    cursor: not-allowed;
-    opacity: 0.7;
-  }
-  
-  /* Success and error messages */
-  .success-message {
-    color: #2e7d32;
-    margin-top: 1rem;
-    font-weight: bold;
-  }
-  
-  .error-message {
-    color: #c62828;
-    margin-top: 1rem;
-    font-weight: bold;
-  }
-  
-  /* Loading spinner */
-  .loading-spinner {
-    margin: 2rem 0;
-    text-align: center;
-  }
+  width: 30vw;
+  min-width: 350px;
+  padding: 2rem;
+  background-color: #F5ECE8;
+  color: #171006;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Heading */
+h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Loading spinner */
+.loading-spinner {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #555;
+  text-align: center;
+}
+
+/* Form styling */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* Input fields */
+input, select {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  font-size: 16px;
+  background-color: #FDF6F3;
+  color: #171006;
+  outline: none;
+}
+
+/* Placeholder styling for password field */
+input[type="password"]::placeholder {
+  font-style: italic;
+  color: #888;
+}
+
+/* Select dropdown */
+select {
+  cursor: pointer;
+}
+
+/* Button group */
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Update button */
+.update-btn {
+  background-color: #171006;
+  color: #E5E3E1;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background 0.3s;
+  flex: 1;
+}
+
+/* Update button hover */
+.update-btn:hover {
+  background-color: #2A1E0F;
+}
+
+/* Cancel button */
+.cancel-btn {
+  background-color: #D9534F; /* Red for cancel */
+  color: #FFF;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background 0.3s;
+  flex: 1;
+}
+
+/* Cancel button hover */
+.cancel-btn:hover {
+  background-color: #C9302C;
+}
+
+/* Disabled button */
+button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Success and error messages */
+.success-message, .error-message {
+  margin-top: 1rem;
+  font-size: 1rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.success-message {
+  color: #28a745;
+}
+
+.error-message {
+  color: #D9534F;
+}

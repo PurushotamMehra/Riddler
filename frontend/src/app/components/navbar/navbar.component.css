@@ -191,3 +191,11 @@
     width: 100%;
   }
 }
+
+/* Add these styles to your existing navbar.component.css */
+@media (min-width: 769px) {
+  /* Only apply hover effects on larger screens */
+  .nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+  }
+}

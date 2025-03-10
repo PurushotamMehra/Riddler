@@ -19,6 +19,10 @@ export class NavbarComponent implements OnInit {
   isQuizzesDropdownOpen: boolean = false;
   menuVisible: boolean = false;
   currentUser: any;
+  
+  // Timeout handlers
+  private usersDropdownTimeout: any;
+  private quizzesDropdownTimeout: any;
 
   constructor(
     private authService: AuthService,
@@ -31,6 +35,32 @@ export class NavbarComponent implements OnInit {
       this.currentUser = user;
       console.log('Current user in navbar:', user); // Debug log
     });
+  }
+
+  // Users dropdown handlers
+  onUsersMouseEnter(): void {
+    clearTimeout(this.usersDropdownTimeout);
+    this.isUsersDropdownOpen = true;
+    this.isQuizzesDropdownOpen = false;
+  }
+
+  onUsersMouseLeave(): void {
+    this.usersDropdownTimeout = setTimeout(() => {
+      this.isUsersDropdownOpen = false;
+    }, 1000);
+  }
+
+  // Quizzes dropdown handlers
+  onQuizzesMouseEnter(): void {
+    clearTimeout(this.quizzesDropdownTimeout);
+    this.isQuizzesDropdownOpen = true;
+    this.isUsersDropdownOpen = false;
+  }
+
+  onQuizzesMouseLeave(): void {
+    this.quizzesDropdownTimeout = setTimeout(() => {
+      this.isQuizzesDropdownOpen = false;
+    }, 1000);
   }
 
   toggleUsersDropdown(): void {
@@ -76,6 +106,7 @@ export class NavbarComponent implements OnInit {
 
   navigateTo(route: string): void {
     this.isUsersDropdownOpen = false; // Close the dropdown
+    this.isQuizzesDropdownOpen = false; // Close quizzes dropdown too
     this.router.navigate([route]);
   }
 }

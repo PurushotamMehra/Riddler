@@ -31,14 +31,17 @@ export class StudentResultsComponent implements OnInit {
   loadResults(): void {
     this.loading = true;
     const studentId = this.authService.getUserId();
+    
     if (!studentId) {
       this.error = 'User ID not found. Please log in again.';
       this.loading = false;
       return;
     }
-
+    
+    // Call the service method with the correct signature
     this.quizService.getStudentResults(Number(studentId)).subscribe({
       next: (data: QuizResult[]) => {
+        console.log('Results data received:', data); // Add logging to debug
         this.results = data;
         this.loading = false;
       },
@@ -72,6 +75,7 @@ export class StudentResultsComponent implements OnInit {
 
   get filteredResults(): QuizResult[] {
     let filtered = this.results;
+    
     // Apply search filter
     if (this.searchTerm.trim()) {
       const term = this.searchTerm.toLowerCase().trim();
