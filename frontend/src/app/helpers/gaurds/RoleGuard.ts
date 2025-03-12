@@ -23,9 +23,11 @@ export class RoleGuard {
     // Get the required roles from the route data
     const requiredRoles = route.data['roles'] as Array<string>;
     
-    // If no specific roles are required, just check if logged in
+    // If no specific roles are required, redirect to login
+    // This ensures no path is accessible without a specified role
     if (!requiredRoles || requiredRoles.length === 0) {
-      return true;
+      this.router.navigate(['/login']);
+      return false;
     }
     
     // Check if the user has one of the required roles
@@ -33,8 +35,15 @@ export class RoleGuard {
     const hasRequiredRole = requiredRoles.some(role => userRole === role);
     
     if (!hasRequiredRole) {
-      // Redirect to unauthorized or dashboard based on your app's needs
-      this.router.navigate(['/unauthorized']);
+      // Redirect based on role
+      if (userRole === 'STUDENT') {
+        this.router.navigate(['/quizzes']);
+      } else if (userRole === 'TEACHER' || userRole === 'ADMIN') {
+        this.router.navigate(['/teacher-quizzes']);
+      } else {
+        // Fallback for any other roles
+        this.router.navigate(['/login']);
+      }
       return false;
     }
     
@@ -58,13 +67,16 @@ export class NoAuthGuard {
       
       if (userRole === 'STUDENT') {
         this.router.navigate(['/quizzes']);
+      } else if (userRole === 'TEACHER' || userRole === 'ADMIN') {
+        this.router.navigate(['/teacher-quizzes']);
       } else {
-        // For ADMIN and TEACHER roles
-        this.router.navigate(['/view-quiz']);
+        // Fallback for any unexpected roles
+        this.router.navigate(['/login']);
       }
       return false;
     }
     
+    // User is not logged in, allow access to login
     return true;
   }
 }

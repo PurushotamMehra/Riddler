@@ -2,19 +2,20 @@
   <div class="navbar-brand">
     <a class="logo" routerLink="/">Quiz App</a>
   </div>
-  
   <button class="menu-toggle" (click)="menuVisible = !menuVisible">
     <span class="menu-icon"></span>
   </button>
-  
   <div class="navbar-menu" [class.visible]="menuVisible">
     <!-- Admin Links -->
     <ng-container *ngIf="isAdmin()">
-      <div class="nav-item">
-        <a class="nav-link" routerLink="/users">View Users</a>
-      </div>
-      <div class="nav-item">
-        <a class="nav-link" routerLink="/create-user">Create User</a>
+      <div class="nav-item dropdown">
+        <a class="nav-link" (click)="toggleUsersDropdown()" (mouseenter)="onUsersMouseEnter()" (mouseleave)="onUsersMouseLeave()">
+          Users <span class="dropdown-icon"></span>
+        </a>
+        <div class="dropdown-menu" [class.show]="isUsersDropdownOpen">
+          <a class="dropdown-item" routerLink="/users">View Users</a>
+          <a class="dropdown-item" routerLink="/create-user">Create User</a>
+        </div>
       </div>
       <div class="nav-item">
         <a class="nav-link" routerLink="/teacher-quizzes">View Quizzes</a>
@@ -23,11 +24,14 @@
     
     <!-- Teacher Links -->
     <ng-container *ngIf="isTeacher()">
-      <div class="nav-item">
-        <a class="nav-link" routerLink="/teacher-quizzes">View Quizzes</a>
-      </div>
-      <div class="nav-item">
-        <a class="nav-link" routerLink="/create-quiz">Create Quiz</a>
+      <div class="nav-item dropdown">
+        <a class="nav-link" (click)="toggleQuizzesDropdown()" (mouseenter)="onQuizzesMouseEnter()" (mouseleave)="onQuizzesMouseLeave()">
+          Quiz <span class="dropdown-icon"></span>
+        </a>
+        <div class="dropdown-menu" [class.show]="isQuizzesDropdownOpen">
+          <a class="dropdown-item" routerLink="/teacher-quizzes">View Quizzes</a>
+          <a class="dropdown-item" routerLink="/create-quiz">Create Quiz</a>
+        </div>
       </div>
       <div class="nav-item">
         <a class="nav-link" routerLink="/user-list">Student List</a>

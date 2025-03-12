@@ -63,7 +63,8 @@
                       {{ result.score }}/5
                     </span>
                   </td>
-                  <td>{{ formatDate(result.submissionTime) }}</td>
+                  <!-- <td>{{ formatDate(result.submissionTime) }}</td> -->
+                  <td>{{ result.submissionTime | date:'dd MMM yyyy, hh:mm a' }}</td>
                   <td>
                     <button 
                       class="btn btn-sm btn-info" 

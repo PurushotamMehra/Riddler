@@ -16,8 +16,9 @@
     Score: {{ result.score }} / {{ quiz.questions?.length || 0 }}
   </p>
   
-  <p>Submission Time: {{ result.submissionTime }}</p>
-
+  <!-- <p>Submission Time: {{ result.submissionTime }}</p> -->
+  <p>Submission Time: {{ result.submissionTime | date:'dd MMM yyyy, hh:mm a' }}</p>
+  
   <div *ngFor="let question of quiz.questions; let i = index" class="question-card">
     <div class="question-number">Question {{ i + 1 }}</div>
     <div class="question-text">{{ question.questionText }}</div>
